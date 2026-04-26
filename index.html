@@ -17,7 +17,6 @@ body {
 header {
   text-align: center;
   padding: 60px 20px;
-  animation: fadeIn 1s ease;
 }
 
 .profile {
@@ -28,13 +27,8 @@ header {
   object-fit: cover;
 }
 
-h1 {
-  color: #38bdf8;
-}
-
-.subtitle {
-  color: #94a3b8;
-}
+h1 { color: #38bdf8; }
+.subtitle { color: #94a3b8; }
 
 /* SECTION */
 section {
@@ -54,25 +48,27 @@ h2 {
   padding: 20px;
   margin-top: 15px;
   border-radius: 12px;
-  transition: 0.3s;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
-/* PROJECTS */
+/* PROJECT GRID */
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
+  gap: 20px;
 }
 
+/* PROJECT CARD */
 .project-card {
   background: #1e293b;
-  border-radius: 12px;
+  border-radius: 15px;
   overflow: hidden;
   transition: 0.3s;
+  box-shadow: 0 0 15px rgba(255,0,150,0.2);
+}
+
+.project-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255,0,150,0.6);
 }
 
 .project-card img {
@@ -81,21 +77,43 @@ h2 {
   object-fit: cover;
 }
 
-.project-card:hover {
-  transform: scale(1.05);
+.content {
+  padding: 15px;
+  text-align: center;
+}
+
+.content h3 {
+  color: #ff4da6;
+  margin: 5px 0;
+}
+
+.content p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* PLAY BUTTON */
+.play-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: linear-gradient(45deg, #ff4da6, #ff1493);
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.play-btn:hover {
+  transform: scale(1.1);
 }
 
 /* CONTACT */
-.contact a {
-  margin: 10px;
-  display: inline-block;
-}
-
+.contact a { margin: 10px; }
 .contact img {
   width: 40px;
   transition: 0.3s;
 }
-
 .contact img:hover {
   transform: scale(1.2);
 }
@@ -111,19 +129,12 @@ h2 {
   border-radius: 8px;
 }
 
-/* ANIMATION */
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
 footer {
   text-align: center;
   padding: 20px;
   color: #94a3b8;
 }
 </style>
-
 </head>
 
 <body>
@@ -141,8 +152,7 @@ footer {
   <div class="card">
     <p>
       Data Operations Executive with strong experience in MIS reporting,
-      data validation and financial data analysis. Currently learning SQL,
-      Python and Power BI.
+      data validation and financial data analysis.
     </p>
   </div>
 </section>
@@ -150,21 +160,7 @@ footer {
 <section>
   <h2>Skills</h2>
   <div class="card">
-    Excel | Google Sheets | SQL | PostgreSQL | Python | Power BI | Java
-  </div>
-</section>
-
-<section>
-  <h2>Experience</h2>
-  <div class="card">
-    <b>Data Operations Executive</b><br>
-    MMHAP University (2023 - Present)
-    <ul>
-      <li>MIS Reporting using Excel</li>
-      <li>Data Cleaning & Validation</li>
-      <li>Payment Reconciliation</li>
-      <li>Automation using Excel</li>
-    </ul>
+    Excel | SQL | PostgreSQL | Python | Power BI | Java
   </div>
 </section>
 
@@ -172,19 +168,34 @@ footer {
   <h2>Projects</h2>
   <div class="projects">
 
+    <!-- Project 1 -->
     <div class="project-card">
       <img src="project1.jpg">
-      <div style="padding:10px;">
-        <b>Excel Dashboard</b>
-        <p>Dynamic MIS dashboard using Excel</p>
+      <div class="content">
+        <h3>Excel Dashboard</h3>
+        <p>Dynamic MIS dashboard</p>
       </div>
     </div>
 
+    <!-- Project 2 -->
     <div class="project-card">
       <img src="project2.jpg">
-      <div style="padding:10px;">
-        <b>SQL Analysis</b>
-        <p>Student fee data analysis project</p>
+      <div class="content">
+        <h3>SQL Analysis</h3>
+        <p>Data analysis project</p>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card">
+      <img src="project3.jpg">
+      <div class="content">
+        <h3>Tic Tac Toe</h3>
+        <p>Java & Web Version</p>
+
+        <a href="tictactoe.html" target="_blank" class="play-btn">
+          🎮 Play Now
+        </a>
       </div>
     </div>
 
@@ -199,7 +210,7 @@ footer {
       <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png">
     </a>
 
-    <a href="https://linkedin.com/in/JawwadCs" target="_blank">
+    <a href="https://linkedin.com/in/jawwadcs" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png">
     </a>
 
