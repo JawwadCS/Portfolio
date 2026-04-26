@@ -4,206 +4,237 @@
   <title>Tic Tac Toe - Er Jawwad</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<style>
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
 
-    .container {
-      text-align: center;
-      padding: 20px;
-      background: #1e293b;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(56,189,248,0.4);
-    }
+.container {
+  text-align: center;
+  padding: 20px;
+  background: #1e293b;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(56,189,248,0.4);
+}
 
-    h1 { color: #38bdf8; }
+h1 { color: #38bdf8; }
 
-    .board {
-      display: grid;
-      grid-template-columns: repeat(3, 80px);
-      gap: 10px;
-      justify-content: center;
-      margin-top: 20px;
-    }
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-    .cell {
-      width: 80px;
-      height: 80px;
-      font-size: 32px;
-      background: #0f172a;
-      border: 2px solid #38bdf8;
-      color: #38bdf8;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+.cell {
+  width: 80px;
+  height: 80px;
+  font-size: 32px;
+  background: #0f172a;
+  border: 2px solid #38bdf8;
+  color: #38bdf8;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
-    .cell:hover { background: #1e293b; }
+.cell:hover { background: #1e293b; }
 
-    .status {
-      margin-top: 15px;
-      font-size: 18px;
-    }
+.status { margin-top: 15px; font-size: 18px; }
 
-    .btn {
-      margin: 10px;
-      padding: 8px 15px;
-      background: #38bdf8;
-      border: none;
-      color: black;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.btn {
+  margin: 8px;
+  padding: 8px 15px;
+  background: #38bdf8;
+  border: none;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-    .btn:hover { background: #0ea5e9; }
+.btn:hover { background: #0ea5e9; }
 
-    @media (max-width: 500px) {
-      .board {
-        grid-template-columns: repeat(3, 70px);
-      }
+.score {
+  margin-top: 10px;
+  font-size: 16px;
+}
 
-      .cell {
-        width: 70px;
-        height: 70px;
-        font-size: 28px;
-      }
-    }
-  </style>
+@media (max-width: 500px) {
+  .board { grid-template-columns: repeat(3, 70px); }
+  .cell { width: 70px; height: 70px; font-size: 28px; }
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <h1>🎮 Tic Tac Toe</h1>
-  <h1> 
-  By: <B>Er Jawwad </B>
+<h1>🎮 Tic Tac Toe</h1>
+  <h1>
+    By: <B>Er Jawwad </B>
   </h1>
 
-  <!-- MODE SELECTION -->
-  <div id="mode">
-    <button class="btn" onclick="startFriend()">👥 Play with Friend</button>
-    <button class="btn" onclick="startComputer()">🤖 Play with Computer</button>
-  </div>
+<div id="mode">
+  <button class="btn" onclick="startFriend()">👥 Friend</button>
+  <button class="btn" onclick="startComputer('easy')">🤖 Easy</button>
+  <button class="btn" onclick="startComputer('hard')">🔥 Hard</button>
+</div>
 
-  <div id="board" class="board"></div>
-  <div id="status" class="status"></div>
+<div id="board" class="board"></div>
+<div id="status" class="status"></div>
 
-  <button class="btn" onclick="resetGame()">Restart</button>
+<div class="score" id="score"></div>
+
+<button class="btn" onclick="resetGame()">Restart</button>
 
 </div>
 
 <script>
-let board = ["","","","","","","","",""];
-let currentPlayer = "X";
-let gameActive = false;
-let vsComputer = false;
+let board, currentPlayer, gameActive, vsComputer, difficulty;
+let player1="Player 1", player2="Player 2";
+let scoreX=0, scoreO=0;
 
-let player1 = "Player 1";
-let player2 = "Player 2";
+const boardEl=document.getElementById("board");
+const statusEl=document.getElementById("status");
+const modeEl=document.getElementById("mode");
+const scoreEl=document.getElementById("score");
 
-const boardEl = document.getElementById("board");
-const statusEl = document.getElementById("status");
-const modeEl = document.getElementById("mode");
-
-const win = [
+const win=[
  [0,1,2],[3,4,5],[6,7,8],
  [0,3,6],[1,4,7],[2,5,8],
  [0,4,8],[2,4,6]
 ];
 
 function startFriend(){
-  player1 = prompt("Enter Player 1 (X):") || "Player 1";
-  player2 = prompt("Enter Player 2 (O):") || "Player 2";
-  vsComputer = false;
-  startGame();
+ player1=prompt("Player 1 (X):")||"Player 1";
+ player2=prompt("Player 2 (O):")||"Player 2";
+ vsComputer=false;
+ startGame();
 }
 
-function startComputer(){
-  player1 = prompt("Enter Your Name:") || "You";
-  player2 = "Computer";
-  vsComputer = true;
-  startGame();
+function startComputer(level){
+ player1=prompt("Your Name:")||"You";
+ player2="Computer";
+ vsComputer=true;
+ difficulty=level;
+ startGame();
 }
 
 function startGame(){
-  modeEl.style.display = "none";
-  gameActive = true;
-  currentPlayer = "X";
-  board = ["","","","","","","","",""];
-  statusEl.innerText = player1+"'s Turn";
-  draw();
+ modeEl.style.display="none";
+ board=["","","","","","","","",""];
+ currentPlayer="X";
+ gameActive=true;
+ statusEl.innerText=player1+"'s Turn";
+ draw();
+ updateScore();
 }
 
-function name(p){
-  return p==="X" ? player1 : player2;
-}
+function name(p){ return p==="X"?player1:player2; }
 
 function draw(){
-  boardEl.innerHTML = "";
-  board.forEach((v,i)=>{
-    let btn = document.createElement("button");
-    btn.className = "cell";
-    btn.innerText = v;
-    btn.onclick = ()=>clickCell(i);
-    boardEl.appendChild(btn);
-  });
+ boardEl.innerHTML="";
+ board.forEach((v,i)=>{
+  let btn=document.createElement("button");
+  btn.className="cell";
+  btn.innerText=v;
+  btn.onclick=()=>clickCell(i);
+  boardEl.appendChild(btn);
+ });
 }
 
 function clickCell(i){
-  if(board[i]!=="" || !gameActive) return;
+ if(board[i]!==""||!gameActive) return;
+ board[i]=currentPlayer;
+ playSound();
+ draw();
+ if(checkWin()) return;
+ currentPlayer=currentPlayer==="X"?"O":"X";
+ statusEl.innerText=name(currentPlayer)+"'s Turn";
 
-  board[i] = currentPlayer;
-  draw();
-
-  if(checkWin()) return;
-
-  currentPlayer = currentPlayer==="X" ? "O" : "X";
-  statusEl.innerText = name(currentPlayer)+"'s Turn";
-
-  if(vsComputer && currentPlayer==="O"){
-    setTimeout(computerMove, 500);
-  }
+ if(vsComputer && currentPlayer==="O"){
+  setTimeout(computerMove,400);
+ }
 }
 
 function computerMove(){
-  let empty = board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
-  let move = empty[Math.floor(Math.random()*empty.length)];
-  clickCell(move);
+ let move;
+ if(difficulty==="easy"){
+  let empty=board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
+  move=empty[Math.floor(Math.random()*empty.length)];
+ } else {
+  move=bestMove();
+ }
+ clickCell(move);
+}
+
+function bestMove(){
+ for(let i=0;i<9;i++){
+  if(board[i]===""){
+   board[i]="O";
+   if(checkWinner("O")){ board[i]=""; return i; }
+   board[i]="";
+  }
+ }
+ for(let i=0;i<9;i++){
+  if(board[i]===""){
+   board[i]="X";
+   if(checkWinner("X")){ board[i]=""; return i; }
+   board[i]="";
+  }
+ }
+ let empty=board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
+ return empty[Math.floor(Math.random()*empty.length)];
+}
+
+function checkWinner(p){
+ return win.some(c=>{
+  let[a,b,d]=c;
+  return board[a]===p && board[b]===p && board[d]===p;
+ });
 }
 
 function checkWin(){
-  for(let c of win){
-    let [a,b,d]=c;
-    if(board[a] && board[a]===board[b] && board[a]===board[d]){
-      statusEl.innerText = "🎉 "+name(board[a])+" Wins!";
-      gameActive=false;
-      return true;
-    }
+ for(let c of win){
+  let[a,b,d]=c;
+  if(board[a] && board[a]===board[b] && board[a]===board[d]){
+   statusEl.innerText="🎉 "+name(board[a])+" Wins!";
+   if(board[a]==="X") scoreX++; else scoreO++;
+   updateScore();
+   gameActive=false;
+   return true;
   }
+ }
+ if(!board.includes("")){
+  statusEl.innerText="Draw!";
+  gameActive=false;
+  return true;
+ }
+ return false;
+}
 
-  if(!board.includes("")){
-    statusEl.innerText = "Draw!";
-    gameActive=false;
-    return true;
-  }
-
-  return false;
+function updateScore(){
+ scoreEl.innerText=`${player1} (X): ${scoreX} | ${player2} (O): ${scoreO}`;
 }
 
 function resetGame(){
-  modeEl.style.display = "block";
-  boardEl.innerHTML = "";
-  statusEl.innerText = "";
-  gameActive = false;
+ modeEl.style.display="block";
+ boardEl.innerHTML="";
+ statusEl.innerText="";
+}
+
+function playSound(){
+ let audio=new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+ audio.play();
 }
 </script>
 
