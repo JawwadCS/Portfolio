@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tic Tac Toe - Er Jawwad</title>
-
+  <title>Tic Tac Toe - Jawwad</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -10,7 +9,6 @@
       font-family: Arial;
       background: #0f172a;
       color: white;
-
       display: flex;
       justify-content: center;
       align-items: center;
@@ -26,10 +24,7 @@
       box-shadow: 0 0 20px rgba(56,189,248,0.4);
     }
 
-    h1 {
-      margin-bottom: 10px;
-      color: #38bdf8;
-    }
+    h1 { color: #38bdf8; }
 
     .board {
       display: grid;
@@ -50,9 +45,7 @@
       cursor: pointer;
     }
 
-    .cell:hover {
-      background: #1e293b;
-    }
+    .cell:hover { background: #1e293b; }
 
     .status {
       margin-top: 15px;
@@ -60,7 +53,7 @@
     }
 
     .btn {
-      margin-top: 15px;
+      margin: 10px;
       padding: 8px 15px;
       background: #38bdf8;
       border: none;
@@ -70,11 +63,8 @@
       font-weight: bold;
     }
 
-    .btn:hover {
-      background: #0ea5e9;
-    }
+    .btn:hover { background: #0ea5e9; }
 
-    /* MOBILE RESPONSIVE */
     @media (max-width: 500px) {
       .board {
         grid-template-columns: repeat(3, 70px);
@@ -94,11 +84,14 @@
 <div class="container">
 
   <h1>🎮 Tic Tac Toe</h1>
- <h1>By: <B> Er Jawwad </B>
-  </h1>
+
+  <!-- MODE SELECTION -->
+  <div id="mode">
+    <button class="btn" onclick="startFriend()">👥 Play with Friend</button>
+    <button class="btn" onclick="startComputer()">🤖 Play with Computer</button>
+  </div>
 
   <div id="board" class="board"></div>
-
   <div id="status" class="status"></div>
 
   <button class="btn" onclick="resetGame()">Restart</button>
@@ -108,13 +101,15 @@
 <script>
 let board = ["","","","","","","","",""];
 let currentPlayer = "X";
-let gameActive = true;
+let gameActive = false;
+let vsComputer = false;
 
-let player1 = prompt("Enter Player 1 Name (X):") || "Player 1";
-let player2 = prompt("Enter Player 2 Name (O):") || "Player 2";
+let player1 = "Player 1";
+let player2 = "Player 2";
 
 const boardEl = document.getElementById("board");
 const statusEl = document.getElementById("status");
+const modeEl = document.getElementById("mode");
 
 const win = [
  [0,1,2],[3,4,5],[6,7,8],
@@ -122,8 +117,31 @@ const win = [
  [0,4,8],[2,4,6]
 ];
 
+function startFriend(){
+  player1 = prompt("Enter Player 1 (X):") || "Player 1";
+  player2 = prompt("Enter Player 2 (O):") || "Player 2";
+  vsComputer = false;
+  startGame();
+}
+
+function startComputer(){
+  player1 = prompt("Enter Your Name:") || "You";
+  player2 = "Computer";
+  vsComputer = true;
+  startGame();
+}
+
+function startGame(){
+  modeEl.style.display = "none";
+  gameActive = true;
+  currentPlayer = "X";
+  board = ["","","","","","","","",""];
+  statusEl.innerText = player1+"'s Turn";
+  draw();
+}
+
 function name(p){
-  return p === "X" ? player1 : player2;
+  return p==="X" ? player1 : player2;
 }
 
 function draw(){
@@ -147,6 +165,16 @@ function clickCell(i){
 
   currentPlayer = currentPlayer==="X" ? "O" : "X";
   statusEl.innerText = name(currentPlayer)+"'s Turn";
+
+  if(vsComputer && currentPlayer==="O"){
+    setTimeout(computerMove, 500);
+  }
+}
+
+function computerMove(){
+  let empty = board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
+  let move = empty[Math.floor(Math.random()*empty.length)];
+  clickCell(move);
 }
 
 function checkWin(){
@@ -169,15 +197,11 @@ function checkWin(){
 }
 
 function resetGame(){
-  board = ["","","","","","","","",""];
-  currentPlayer = "X";
-  gameActive = true;
-  statusEl.innerText = name(currentPlayer)+"'s Turn";
-  draw();
+  modeEl.style.display = "block";
+  boardEl.innerHTML = "";
+  statusEl.innerText = "";
+  gameActive = false;
 }
-
-statusEl.innerText = player1+"'s Turn";
-draw();
 </script>
 
 </body>
