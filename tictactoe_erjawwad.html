@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tic Tac Toe - Er Jawwad</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toe - Er Jawwad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
@@ -28,12 +28,27 @@ body {
 
 h1 { color: #38bdf8; }
 
+/* 🔥 WELCOME ANIMATION */
+.welcome {
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+  animation: scrollText 10s linear infinite;
+  color: #38bdf8;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
 .board {
   display: grid;
   gap: 6px;
-  justify-content: center;
-  margin-top: 20px;
   width: 100%;
+  margin-top: 20px;
 }
 
 .cell {
@@ -47,7 +62,10 @@ h1 { color: #38bdf8; }
   cursor: pointer;
 }
 
-.status { margin-top: 15px; font-size: 16px; }
+.win {
+  background: #22c55e !important;
+  color: black !important;
+}
 
 .btn {
   margin: 5px;
@@ -57,13 +75,10 @@ h1 { color: #38bdf8; }
   color: black;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
 }
 
-.score {
-  margin-top: 10px;
-  font-size: 14px;
-}
+.status { margin-top: 10px; }
+.score { margin-top: 5px; font-size: 14px; }
 </style>
 </head>
 
@@ -71,209 +86,218 @@ h1 { color: #38bdf8; }
 
 <div class="container">
 
+<!-- 🔥 ANIMATED HEADER -->
+<div class="welcome">
+  🚀 Welcome to My Game – Developed by Er Jawwad
+</div>
+
 <h1>🎮 Tic Tac Toe</h1>
-<h3>By: <b>Er Jawwad</b></h3>
+  <h1>
+By: <B>Er Jawwad</B>
+    
+  </h1>
 
 <div id="mode">
-  <button class="btn" onclick="startFriend()">👥 Friend</button>
-  <button class="btn" onclick="showAIMode()">🤖 AI</button>
+  <button class="btn" onclick="startFriend()">Friend</button>
+  <button class="btn" onclick="showAI()">AI</button>
 </div>
 
 <div id="aiMode" style="display:none;">
-  <button class="btn" onclick="startComputer('easy')">Easy 🫰</button>
-  <button class="btn" onclick="startComputer('hard')">Hard 🔥</button>
+  <button class="btn" onclick="startAI('easy')">Easy</button>
+  <button class="btn" onclick="startAI('hard')">Hard</button>
 </div>
 
-<div id="board" class="board"></div>
 <div id="status" class="status"></div>
 <div id="score" class="score"></div>
+<div id="board" class="board"></div>
 
 <button class="btn" onclick="resetGame()">Restart</button>
-
 </div>
 
 <script>
 let board=[], size=3;
-let currentPlayer, gameActive, vsComputer, difficulty;
+let currentPlayer, gameActive, vsAI, difficulty;
 
 let player1="You", player2="A.I";
+let level=1, maxLevel=7, winTarget=4;
 let scoreX=0, scoreO=0;
-
-let level=1;
-let maxLevel=7;
-let winTarget=4;
 
 const boardEl=document.getElementById("board");
 const statusEl=document.getElementById("status");
+const scoreEl=document.getElementById("score");
 const modeEl=document.getElementById("mode");
 const aiModeEl=document.getElementById("aiMode");
-const scoreEl=document.getElementById("score");
 
-// SHOW AI OPTIONS
-function showAIMode(){
+function showAI(){
  modeEl.style.display="none";
  aiModeEl.style.display="block";
 }
 
-// FRIEND
 function startFriend(){
- player1=prompt("Player 1 (X):")||"Player 1";
- player2=prompt("Player 2 (O):")||"Player 2";
- vsComputer=false;
+ player1=prompt("Enter Player 1 Name (X):")||"Player 1";
+ player2=prompt("Enter Player 2 Name (O):")||"Player 2";
+ vsAI=false;
  modeEl.style.display="none";
  startLevel();
 }
 
-// AI START
-function startComputer(levelAI){
+function startAI(diff){
  player1="You";
  player2="A.I";
- vsComputer=true;
- difficulty=levelAI;
+ vsAI=true;
+ difficulty=diff;
  aiModeEl.style.display="none";
  startLevel();
 }
 
-// START LEVEL
 function startLevel(){
- size = level + 2;
- board = Array(size*size).fill("");
+ size=level+2;
+ board=Array(size*size).fill("");
  currentPlayer="X";
  gameActive=true;
 
  boardEl.style.display="grid";
- boardEl.style.gridTemplateColumns=`repeat(${size}, 1fr)`;
+ boardEl.style.gridTemplateColumns=`repeat(${size},1fr)`;
 
  draw();
  updateScore();
 
- statusEl.innerText=`Level ${level} | ${player1}'s Turn`;
+ statusEl.innerText=`Level ${level} | ${name(currentPlayer)} Turn`;
 }
 
-// DRAW
 function draw(){
  boardEl.innerHTML="";
  board.forEach((v,i)=>{
-  let btn=document.createElement("button");
-  btn.className="cell";
-  btn.innerText=v;
-  btn.onclick=()=>clickCell(i);
-  boardEl.appendChild(btn);
+  let b=document.createElement("button");
+  b.className="cell";
+  b.innerText=v;
+  b.onclick=()=>clickCell(i);
+  boardEl.appendChild(b);
  });
 }
 
-// CLICK
 function clickCell(i){
- if(board[i]!=="" || !gameActive) return;
+ if(board[i]!==""||!gameActive)return;
 
  board[i]=currentPlayer;
  draw();
 
  if(checkWin(currentPlayer)){
-  if(currentPlayer==="X") scoreX++; else scoreO++;
+  highlight();
 
-  // FINAL WINNER
+  if(currentPlayer==="X")scoreX++; else scoreO++;
+
   if(scoreX===winTarget || scoreO===winTarget){
-    statusEl.innerText=`🏆 ${name(currentPlayer)} Wins Tournament!`;
+    if(vsAI){
+      statusEl.innerText = currentPlayer==="X" ? "🏆 You Win!" : "🤖 A.I Wins!";
+    } else {
+      statusEl.innerText = `🏆 ${name(currentPlayer)} Wins!`;
+    }
     endGame();
     return;
   }
 
   level++;
   if(level>maxLevel){
-    statusEl.innerText="🏁 Game Over!";
+    statusEl.innerText="Game Over";
     endGame();
     return;
   }
 
-  statusEl.innerText=`🎉 ${name(currentPlayer)} won Level ${level-1}`;
-  setTimeout(startLevel,800);
+  setTimeout(startLevel,700);
   return;
  }
 
- // DRAW
  if(!board.includes("")){
-  statusEl.innerText="🤝 Match Draw!";
+  statusEl.innerText="Draw!";
   endGame();
   return;
  }
 
- currentPlayer = currentPlayer==="X" ? "O" : "X";
- statusEl.innerText=name(currentPlayer)+" Turn";
+ currentPlayer=currentPlayer==="X"?"O":"X";
+ statusEl.innerText=`${name(currentPlayer)} Turn`;
 
- if(vsComputer && currentPlayer==="O"){
-  setTimeout(computerMove,300);
+ if(vsAI && currentPlayer==="O"){
+  setTimeout(aiMove,200);
  }
 }
 
-// END GAME (hide board)
-function endGame(){
- gameActive=false;
- boardEl.style.display="none";
-}
-
-// NAME
-function name(p){
- return p==="X"?player1:player2;
-}
-
-// WIN CHECK
-function checkWin(p){
- for(let r=0;r<size;r++){
-  let win=true;
-  for(let c=0;c<size;c++){
-    if(board[r*size+c]!==p) win=false;
-  }
-  if(win) return true;
- }
-
- for(let c=0;c<size;c++){
-  let win=true;
-  for(let r=0;r<size;r++){
-    if(board[r*size+c]!==p) win=false;
-  }
-  if(win) return true;
- }
-
- let win=true;
- for(let i=0;i<size;i++){
-  if(board[i*size+i]!==p) win=false;
- }
- if(win) return true;
-
- win=true;
- for(let i=0;i<size;i++){
-  if(board[i*size+(size-i-1)]!==p) win=false;
- }
- return win;
-}
-
-// AI
-function computerMove(){
- let empty=board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
-
+function aiMove(){
+ let empty=getEmpty();
  let move;
+
  if(difficulty==="easy"){
-   move=empty[Math.floor(Math.random()*empty.length)];
+  move=randomMove(empty);
  } else {
-   move=empty[0]; // simple hard logic (can improve later)
+  move=findBestMove() ?? randomMove(empty);
  }
 
  clickCell(move);
 }
 
-// SCORE
-function updateScore(){
- scoreEl.innerText=`${player1}: ${scoreX} | ${player2}: ${scoreO}`;
+function findBestMove(){
+ for(let i of getEmpty()){
+  board[i]="O";
+  if(checkWin("O")){ board[i]=""; return i; }
+  board[i]="";
+ }
+
+ for(let i of getEmpty()){
+  board[i]="X";
+  if(checkWin("X")){ board[i]=""; return i; }
+  board[i]="";
+ }
+
+ let center=Math.floor(board.length/2);
+ if(board[center]==="") return center;
+
+ return null;
 }
 
-// RESET
+function randomMove(empty){
+ return empty[Math.floor(Math.random()*empty.length)];
+}
+
+function getEmpty(){
+ return board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
+}
+
+function checkWin(p){
+ for(let r=0;r<size;r++){
+  if([...Array(size).keys()].every(c=>board[r*size+c]===p))return true;
+ }
+ for(let c=0;c<size;c++){
+  if([...Array(size).keys()].every(r=>board[r*size+c]===p))return true;
+ }
+ if([...Array(size).keys()].every(i=>board[i*size+i]===p))return true;
+ if([...Array(size).keys()].every(i=>board[i*size+(size-i-1)]===p))return true;
+ return false;
+}
+
+function highlight(){
+ document.querySelectorAll(".cell").forEach(c=>c.classList.add("win"));
+}
+
+function name(p){
+ return p==="X"?player1:player2;
+}
+
+function updateScore(){
+ scoreEl.innerText = `Score → ${player1}: ${scoreX} | ${player2}: ${scoreO}`;
+}
+
+function endGame(){
+ gameActive=false;
+ boardEl.style.display="none";
+}
+
 function resetGame(){
  level=1;
  scoreX=0;
  scoreO=0;
  boardEl.style.display="none";
  statusEl.innerText="";
+ scoreEl.innerText="";
  modeEl.style.display="block";
  aiModeEl.style.display="none";
 }
