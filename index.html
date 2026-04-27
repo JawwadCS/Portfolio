@@ -1,304 +1,234 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Tic Tac Toe - Er Jawwad</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Md Jawwad | Portfolio</title>
 
 <style>
 body {
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
 }
 
-.container {
+/* HEADER */
+header {
   text-align: center;
-  padding: 15px;
-  background: #1e293b;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(56,189,248,0.4);
-  width: 95%;
-  max-width: 420px;
+  padding: 60px 20px;
+}
+
+.profile {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid #38bdf8;
+  object-fit: cover;
 }
 
 h1 { color: #38bdf8; }
+.subtitle { color: #94a3b8; }
 
-/* 🔥 WELCOME ANIMATION */
-.welcome {
-  white-space: nowrap;
+/* SECTION */
+section {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+h2 {
+  border-left: 4px solid #38bdf8;
+  padding-left: 10px;
+}
+
+/* CARD */
+.card {
+  background: #1e293b;
+  padding: 20px;
+  margin-top: 15px;
+  border-radius: 12px;
+}
+
+/* PROJECT GRID */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* PROJECT CARD */
+.project-card {
+  background: #1e293b;
+  border-radius: 15px;
   overflow: hidden;
-  box-sizing: border-box;
-  animation: scrollText 10s linear infinite;
+  transition: 0.3s;
+  box-shadow: 0 0 15px rgba(56,189,248,0.3);
+}
+
+.project-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(56,189,248,0.7);
+}
+
+.project-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.content {
+  padding: 15px;
+  text-align: center;
+}
+
+.content h3 {
   color: #38bdf8;
-  margin-bottom: 10px;
+  margin: 5px 0;
+}
+
+.content p {
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+/* PLAY BUTTON (CYAN) */
+.play-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: linear-gradient(45deg, #38bdf8, #0ea5e9);
+  color: black;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.play-btn:hover {
+  transform: scale(1.1);
+}
+
+/* CONTACT */
+.contact a { margin: 10px; }
+
+.contact img {
+  width: 40px;
+  transition: 0.3s;
+}
+
+.contact img:hover {
+  transform: scale(1.2);
+}
+
+/* BUTTON */
+.btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #38bdf8;
+  color: black;
+  text-decoration: none;
+  border-radius: 8px;
   font-weight: bold;
 }
 
-@keyframes scrollText {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
 }
-
-.board {
-  display: grid;
-  gap: 6px;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.cell {
-  aspect-ratio: 1/1;
-  width: 100%;
-  font-size: 4vw;
-  background: #0f172a;
-  border: 2px solid #38bdf8;
-  color: #38bdf8;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.win {
-  background: #22c55e !important;
-  color: black !important;
-}
-
-.btn {
-  margin: 5px;
-  padding: 8px 12px;
-  background: #38bdf8;
-  border: none;
-  color: black;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.status { margin-top: 10px; }
-.score { margin-top: 5px; font-size: 14px; }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
+  <img src="Er_Jawwad.png" class="profile">
+  <h1>Md Jawwad</h1>
+  <p class="subtitle">Data Operations Executive | Aspiring Data Analyst</p>
 
-<!-- 🔥 ANIMATED HEADER -->
-<div class="welcome">
-  🚀 Welcome to My Game – Developed by Er Jawwad
-</div>
+  <a href="Jawwad_Resume.pdf" class="btn" download>Download Resume</a>
+</header>
 
-<h1>🎮 Tic Tac Toe</h1>
-  <h1>By:<B>Er Jawwad</B></h1>
+<section>
+  <h2>About Me</h2>
+  <div class="card">
+    <p>
+      Data Operations Executive with strong experience in MIS reporting,
+      data validation and financial data analysis.
+    </p>
+  </div>
+</section>
 
-<div id="mode">
-  <button class="btn" onclick="startFriend()">Friend</button>
-  <button class="btn" onclick="showAI()">AI</button>
-</div>
+<section>
+  <h2>Skills</h2>
+  <div class="card">
+    Excel | SQL | PostgreSQL | Python | Power BI | Java
+  </div>
+</section>
 
-<div id="aiMode" style="display:none;">
-  <button class="btn" onclick="startAI('easy')">Easy</button>
-  <button class="btn" onclick="startAI('hard')">Hard</button>
-</div>
+<section>
+  <h2>Projects</h2>
+  <div class="projects">
 
-<div id="status" class="status"></div>
-<div id="score" class="score"></div>
-<div id="board" class="board"></div>
+    <!-- Project 1 -->
+    <div class="project-card">
+      <img src="project1.jpg">
+      <div class="content">
+        <h3>Excel Dashboard</h3>
+        <p>Dynamic MIS dashboard</p>
+      </div>
+    </div>
 
-<button class="btn" onclick="resetGame()">Restart</button>
-</div>
+    <!-- Project 2 -->
+    <div class="project-card">
+      <img src="project2.jpg">
+      <div class="content">
+        <h3>SQL Analysis</h3>
+        <p>Data analysis project</p>
+      </div>
+    </div>
 
-<script>
-let board=[], size=3;
-let currentPlayer, gameActive, vsAI, difficulty;
+    <!-- Project 3 -->
+    <div class="project-card">
+      <img src="project3.jpg">
+      <div class="content">
+        <h3>Tic Tac Toe</h3>
+        <p>Java & Web Version</p>
 
-let player1="You", player2="A.I";
-let level=1, maxLevel=7, winTarget=4;
-let scoreX=0, scoreO=0;
+        <a href="tictactoe.html" target="_blank" class="play-btn">
+          🎮 Play Now
+        </a>
+      </div>
+    </div>
 
-const boardEl=document.getElementById("board");
-const statusEl=document.getElementById("status");
-const scoreEl=document.getElementById("score");
-const modeEl=document.getElementById("mode");
-const aiModeEl=document.getElementById("aiMode");
+  </div>
+</section>
 
-function showAI(){
- modeEl.style.display="none";
- aiModeEl.style.display="block";
-}
+<section>
+  <h2>Contact</h2>
+  <div class="contact">
 
-function startFriend(){
- player1=prompt("Enter Player 1 Name (X):")||"Player 1";
- player2=prompt("Enter Player 2 Name (O):")||"Player 2";
- vsAI=false;
- modeEl.style.display="none";
- startLevel();
-}
+    <a href="mailto:jawwad.cs01@gmail.com">
+      <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png">
+    </a>
 
-function startAI(diff){
- player1="You";
- player2="A.I";
- vsAI=true;
- difficulty=diff;
- aiModeEl.style.display="none";
- startLevel();
-}
+    <a href="https://linkedin.com/in/jawwadcs" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png">
+    </a>
 
-function startLevel(){
- size=level+2;
- board=Array(size*size).fill("");
- currentPlayer="X";
- gameActive=true;
+    <a href="https://github.com/jawwadcs" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png">
+    </a>
 
- boardEl.style.display="grid";
- boardEl.style.gridTemplateColumns=`repeat(${size},1fr)`;
+  </div>
+</section>
 
- draw();
- updateScore();
-
- statusEl.innerText=`Level ${level} | ${name(currentPlayer)} Turn`;
-}
-
-function draw(){
- boardEl.innerHTML="";
- board.forEach((v,i)=>{
-  let b=document.createElement("button");
-  b.className="cell";
-  b.innerText=v;
-  b.onclick=()=>clickCell(i);
-  boardEl.appendChild(b);
- });
-}
-
-function clickCell(i){
- if(board[i]!==""||!gameActive)return;
-
- board[i]=currentPlayer;
- draw();
-
- if(checkWin(currentPlayer)){
-  highlight();
-
-  if(currentPlayer==="X")scoreX++; else scoreO++;
-
-  if(scoreX===winTarget || scoreO===winTarget){
-    if(vsAI){
-      statusEl.innerText = currentPlayer==="X" ? "🏆 You Win!" : "🤖 A.I Wins!";
-    } else {
-      statusEl.innerText = `🏆 ${name(currentPlayer)} Wins!`;
-    }
-    endGame();
-    return;
-  }
-
-  level++;
-  if(level>maxLevel){
-    statusEl.innerText="Game Over";
-    endGame();
-    return;
-  }
-
-  setTimeout(startLevel,700);
-  return;
- }
-
- if(!board.includes("")){
-  statusEl.innerText="Draw!";
-  endGame();
-  return;
- }
-
- currentPlayer=currentPlayer==="X"?"O":"X";
- statusEl.innerText=`${name(currentPlayer)} Turn`;
-
- if(vsAI && currentPlayer==="O"){
-  setTimeout(aiMove,200);
- }
-}
-
-function aiMove(){
- let empty=getEmpty();
- let move;
-
- if(difficulty==="easy"){
-  move=randomMove(empty);
- } else {
-  move=findBestMove() ?? randomMove(empty);
- }
-
- clickCell(move);
-}
-
-function findBestMove(){
- for(let i of getEmpty()){
-  board[i]="O";
-  if(checkWin("O")){ board[i]=""; return i; }
-  board[i]="";
- }
-
- for(let i of getEmpty()){
-  board[i]="X";
-  if(checkWin("X")){ board[i]=""; return i; }
-  board[i]="";
- }
-
- let center=Math.floor(board.length/2);
- if(board[center]==="") return center;
-
- return null;
-}
-
-function randomMove(empty){
- return empty[Math.floor(Math.random()*empty.length)];
-}
-
-function getEmpty(){
- return board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
-}
-
-function checkWin(p){
- for(let r=0;r<size;r++){
-  if([...Array(size).keys()].every(c=>board[r*size+c]===p))return true;
- }
- for(let c=0;c<size;c++){
-  if([...Array(size).keys()].every(r=>board[r*size+c]===p))return true;
- }
- if([...Array(size).keys()].every(i=>board[i*size+i]===p))return true;
- if([...Array(size).keys()].every(i=>board[i*size+(size-i-1)]===p))return true;
- return false;
-}
-
-function highlight(){
- document.querySelectorAll(".cell").forEach(c=>c.classList.add("win"));
-}
-
-function name(p){
- return p==="X"?player1:player2;
-}
-
-function updateScore(){
- scoreEl.innerText = `Score → ${player1}: ${scoreX} | ${player2}: ${scoreO}`;
-}
-
-function endGame(){
- gameActive=false;
- boardEl.style.display="none";
-}
-
-function resetGame(){
- level=1;
- scoreX=0;
- scoreO=0;
- boardEl.style.display="none";
- statusEl.innerText="";
- scoreEl.innerText="";
- modeEl.style.display="block";
- aiModeEl.style.display="none";
-}
-</script>
+<footer>
+  © 2026 Md Jawwad | Portfolio
+</footer>
 
 </body>
 </html>
