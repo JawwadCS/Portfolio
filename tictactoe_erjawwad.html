@@ -79,20 +79,19 @@ h1 { color: #38bdf8; }
 <div class="container">
 
 <h1>🎮 Tic Tac Toe</h1>
-  <h1>
-    By: <B>Er Jawwad </B>
-  </h1>
+<h3>By: <b>Er Jawwad</b></h3>
 
+<!-- MODE SELECTION -->
 <div id="mode">
-  <button class="btn" onclick="startFriend()">👥 Friend</button>
-  <button class="btn" onclick="startComputer('easy')">🤖 Easy</button>
-  <button class="btn" onclick="startComputer('hard')">🔥 Hard</button>
+  <button class="btn" onclick="startFriend()">👥 Play with Friend</button>
+  <button class="btn" onclick="startComputer('easy')">🤖 Play with AI (Easy)</button>
+  <button class="btn" onclick="startComputer('hard')">🔥 Play with AI (Hard)</button>
 </div>
 
+<!-- GAME -->
 <div id="board" class="board"></div>
 <div id="status" class="status"></div>
-
-<div class="score" id="score"></div>
+<div id="score" class="score"></div>
 
 <button class="btn" onclick="resetGame()">Restart</button>
 
@@ -100,7 +99,7 @@ h1 { color: #38bdf8; }
 
 <script>
 let board, currentPlayer, gameActive, vsComputer, difficulty;
-let player1="Player 1", player2="Player 2";
+let player1="You", player2="A.I";
 let scoreX=0, scoreO=0;
 
 const boardEl=document.getElementById("board");
@@ -114,21 +113,24 @@ const win=[
  [0,4,8],[2,4,6]
 ];
 
+// FRIEND MODE
 function startFriend(){
- player1=prompt("Player 1 (X):")||"Player 1";
- player2=prompt("Player 2 (O):")||"Player 2";
+ player1=prompt("Enter Player 1 Name (X):")||"Player 1";
+ player2=prompt("Enter Player 2 Name (O):")||"Player 2";
  vsComputer=false;
  startGame();
 }
 
+// AI MODE
 function startComputer(level){
- player1=prompt("Your Name:")||"You";
- player2="Computer";
+ player1="You";
+ player2="A.I";
  vsComputer=true;
  difficulty=level;
  startGame();
 }
 
+// START GAME
 function startGame(){
  modeEl.style.display="none";
  board=["","","","","","","","",""];
@@ -139,8 +141,10 @@ function startGame(){
  updateScore();
 }
 
+// NAME FUNCTION
 function name(p){ return p==="X"?player1:player2; }
 
+// DRAW BOARD
 function draw(){
  boardEl.innerHTML="";
  board.forEach((v,i)=>{
@@ -152,12 +156,14 @@ function draw(){
  });
 }
 
+// CLICK
 function clickCell(i){
  if(board[i]!==""||!gameActive) return;
  board[i]=currentPlayer;
  playSound();
  draw();
  if(checkWin()) return;
+
  currentPlayer=currentPlayer==="X"?"O":"X";
  statusEl.innerText=name(currentPlayer)+"'s Turn";
 
@@ -166,6 +172,7 @@ function clickCell(i){
  }
 }
 
+// AI MOVE
 function computerMove(){
  let move;
  if(difficulty==="easy"){
@@ -177,6 +184,7 @@ function computerMove(){
  clickCell(move);
 }
 
+// SMART AI
 function bestMove(){
  for(let i=0;i<9;i++){
   if(board[i]===""){
@@ -196,6 +204,7 @@ function bestMove(){
  return empty[Math.floor(Math.random()*empty.length)];
 }
 
+// CHECK WINNER
 function checkWinner(p){
  return win.some(c=>{
   let[a,b,d]=c;
@@ -203,6 +212,7 @@ function checkWinner(p){
  });
 }
 
+// GAME RESULT
 function checkWin(){
  for(let c of win){
   let[a,b,d]=c;
@@ -222,16 +232,19 @@ function checkWin(){
  return false;
 }
 
+// SCORE
 function updateScore(){
  scoreEl.innerText=`${player1} (X): ${scoreX} | ${player2} (O): ${scoreO}`;
 }
 
+// RESET
 function resetGame(){
  modeEl.style.display="block";
  boardEl.innerHTML="";
  statusEl.innerText="";
 }
 
+// SOUND
 function playSound(){
  let audio=new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
  audio.play();
